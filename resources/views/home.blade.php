@@ -30,12 +30,12 @@
                 </div>
 
                 <div class="row mb-3">
-                    <label for="date" class="col-md-4 col-form-label text-md-end">{{ __('Date') }}</label>
+                    <label for="date" class="col-md-4 col-form-label text-md-end">{{ __('Available Date') }}</label>
 
                     <div class="col-md-6">
-                        <input id="Date" type="date" class="form-control @error('date') is-invalid @enderror" name="date" value="{{ old('date') }}" required autocomplete="date">
-
-                        @error('date')
+                        <input id="multiDatePicker" type="text" class="form-control @error('dates') is-invalid @enderror" name="dates">
+                        <!-- <input id="Date" type="date" class="form-control @error('date') is-invalid @enderror" name="date" value="{{ old('date') }}" required autocomplete="date"> -->
+                        @error('dates')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
@@ -77,9 +77,14 @@
                     <label for="conslt_time" class="col-md-4 col-form-label text-md-end">{{ __('Consultation Time') }}</label>
 
                     <div class="col-md-6">
-                        <input id="conslt_days" type="text" class="form-control @error('time_frame') is-invalid @enderror" name="time_frame" value="{{ old('time_frame') }}" required autocomplete="">
-
-                        @error('time_frame')
+                        <select name="time_frame[]" id="time_frame" multiple>
+                            <option value="9.30AM-12.30PM">9.30AM-12.30PM</option>
+                            <option value="12.30PM-1.30PM">12.30PM-3.30PM</option>
+                            <option value="1.30PM-3.30PM">12.30PM-3.30PM</option>
+                            <option value="3.30PM-5.30PM">3.30PM-5.30PM</option>
+                        </select>
+                        <p>Hold down the control (ctrl) button to select multiple options</p>
+                        @error('conslt_days')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
@@ -113,20 +118,27 @@
         </tr>
         @foreach($doctors as $doctor)
         <?php
-         $consultDays=json_decode($doctor->consult_days);
-         $days=implode(',',$consultDays);
+        
+         
          ?>
         <tr>
             <td>{{$doctor->name}}</td>
             <td>{{$doctor->date}}</td>
             <td>{{$doctor->specialization}}</td>
-            <td>{{$days}}</td>
+            <td>{{$doctor->consult_days}}</td>
             <td>{{$doctor->time_frame}}</td>
         </tr>
         @endforeach
     </table>
 
 </div>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    flatpickr("#multiDatePicker", {
+        mode: "multiple",
+        dateFormat: "Y-m-d"
+    });
+</script>
 
 
 @endsection

@@ -48,20 +48,19 @@
 
                   <form style="margin-bottom: 30px;text-align:center">  
                     <input type="date" min="{{$minDate}}" max="{{$maxDate}}" name="date">
-                    <!-- <select name="time_frame">
-                        <option value="9.30 AM - 12.30 PM">9.30 AM - 12.30 PM</option>
-                        <option value="10.30 AM - 12.30 PM">10.30 AM - 12.30 PM</option>
-                        <option value="12.30 PM - 3.30 PM">12.30 PM - 3.30 PM</option>
-                    </select> -->
+                    
+                    <select name="doctor">
+                        <option  value="" selected default>Choose Doctor</option>
+                        @foreach($doctorsAval as $doctor)
+                           <option value="{{$doctor->name}}">{{$doctor->name}}</option>
+                        @endforeach
+                    </select>
                      <button type="submit" style="color:skyblue;background-color:green">Search</button>
                   </form>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
                     @foreach($doctors as $doctor)  
 
-                       <?php 
-                            $consultDays=json_decode($doctor->consult_days);
-                            $days=implode(',',$consultDays);
-                        ?>
+                       
                         <a href="{{route('doctor_booking',['id'=>$doctor->id,'conslt_id'=>$doctor->conslt_id,'date'=>$doctor->date])}}" class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
                             <div>
                                 <div class="h-16 w-16 bg-red-50 dark:bg-red-800/20 flex items-center justify-center rounded-full">
@@ -73,7 +72,7 @@
                                 <h3 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">{{$doctor->name}}</h2>
 
                                 <h4 class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                                    Available Days:{{$days}}
+                                    Available Days:{{$doctor->consult_days}}
                                 </h4>
                                 <h4 class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
                                     Available Date:{{$doctor->date}}

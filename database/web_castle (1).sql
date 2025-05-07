@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 06, 2025 at 08:09 PM
+-- Generation Time: May 07, 2025 at 05:34 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -42,9 +42,9 @@ CREATE TABLE `bookings` (
 --
 
 INSERT INTO `bookings` (`id`, `doc_id`, `conslt_id`, `Booked_at`, `token`, `created_at`, `updated_at`) VALUES
-(13, 8, 4, '2025-05-07', 'BKD10', '2025-05-06 12:34:09', '2025-05-06 12:34:09'),
-(14, 5, 1, '2025-05-06', 'BKD6', '2025-05-06 12:34:19', '2025-05-06 12:34:19'),
-(15, 6, 2, '2025-05-06', 'BKD4', '2025-05-06 12:38:04', '2025-05-06 12:38:04');
+(1, 4, 3, '2025-05-19', 'BKD3', '2025-05-07 09:55:22', '2025-05-07 09:55:22'),
+(2, 5, 4, '2025-05-26', 'BKD6', '2025-05-07 09:55:52', '2025-05-07 09:55:52'),
+(3, 13, 12, '2025-05-30', 'BKD8', '2025-05-07 10:03:06', '2025-05-07 10:03:06');
 
 -- --------------------------------------------------------
 
@@ -66,11 +66,18 @@ CREATE TABLE `consultations` (
 --
 
 INSERT INTO `consultations` (`id`, `user_id`, `consult_days`, `time_frame`, `created_at`, `updated_at`) VALUES
-(1, 5, '[\"monday\",\"WednesDay\",\"friday\"]', '10.30 AM - 12.30PM', '2025-05-06 09:20:31', '2025-05-06 09:20:31'),
-(2, 6, '[\"monday\",\"friday\"]', '12.30PM- 3.30PM', '2025-05-06 09:30:09', '2025-05-06 09:30:09'),
-(3, 7, '[\"monday\"]', '9.30AM - 11.30 AM', '2025-05-06 09:31:31', '2025-05-06 09:31:31'),
-(4, 8, '[\"monday\",\"friday\"]', '10.30 AM - 12.30PM', '2025-05-06 10:20:16', '2025-05-06 10:20:16'),
-(5, 9, '[\"WednesDay\"]', '12.30PM - 3.30PM', '2025-05-06 10:23:24', '2025-05-06 10:23:24');
+(1, 2, 'WednesDay', '9.30AM-12.30PM', '2025-05-07 09:40:22', '2025-05-07 09:40:22'),
+(2, 3, 'WednesDay', '12.30PM-1.30PM', '2025-05-07 09:40:22', '2025-05-07 09:40:22'),
+(3, 4, 'WednesDay', '1.30PM-3.30PM', '2025-05-07 09:40:22', '2025-05-07 09:40:22'),
+(4, 5, 'WednesDay', '3.30PM-5.30PM', '2025-05-07 09:40:22', '2025-05-07 09:40:22'),
+(5, 6, 'WednesDay', '9.30AM-12.30PM', '2025-05-07 09:42:36', '2025-05-07 09:42:36'),
+(6, 7, 'WednesDay', '1.30PM-3.30PM', '2025-05-07 09:42:36', '2025-05-07 09:42:36'),
+(7, 8, 'WednesDay', '1.30PM-3.30PM', '2025-05-07 09:42:36', '2025-05-07 09:42:36'),
+(8, 9, 'WednesDay', '1.30PM-3.30PM', '2025-05-07 09:42:36', '2025-05-07 09:42:36'),
+(9, 10, 'friday', '9.30AM-12.30PM', '2025-05-07 09:59:33', '2025-05-07 09:59:33'),
+(10, 11, 'friday', '12.30PM-1.30PM', '2025-05-07 09:59:33', '2025-05-07 09:59:33'),
+(11, 12, 'friday', '1.30PM-3.30PM', '2025-05-07 09:59:33', '2025-05-07 09:59:33'),
+(12, 13, 'friday', '3.30PM-5.30PM', '2025-05-07 09:59:33', '2025-05-07 09:59:33');
 
 -- --------------------------------------------------------
 
@@ -111,10 +118,11 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (4, '2019_08_19_000000_create_failed_jobs_table', 1),
 (5, '2019_12_14_000001_create_personal_access_tokens_table', 1),
 (6, '2025_05_06_133025_create_consultations_table', 1),
-(7, '2025_15_06_133026_add_date_to_users_table', 2),
-(8, '2025_15_07_133027_create_bookings_table ', 3),
-(9, '2025_15_07_133028_add_doc_id_bookings_table', 4),
-(10, '2025_15_07_133029_add_token_bookings_table', 5);
+(7, '2025_15_06_133026_add_date_to_users_table', 1),
+(8, '2025_15_07_133027_create_bookings_table ', 1),
+(9, '2025_15_07_133028_add_doc_id_bookings_table', 1),
+(10, '2025_15_07_133029_add_token_bookings_table', 1),
+(11, '2025_15_07_133334_change_date_to_string_in_users_table', 1);
 
 -- --------------------------------------------------------
 
@@ -169,7 +177,7 @@ CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
   `specialization` varchar(255) DEFAULT NULL,
-  `date` date DEFAULT NULL,
+  `date` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
@@ -183,12 +191,19 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `specialization`, `date`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Midhun Chacko', NULL, '2025-05-06', 'midhun@gmail.com', NULL, '$2y$10$tm44yZZ/sPKlC7bQ14FZtueCejyMzwVZqhj6fPUhtKnKu/VC3yj3W', NULL, '2025-05-06 08:20:37', '2025-05-06 08:20:37'),
-(5, 'Doctor 1', 'MBBS,DENTAL', '2025-05-06', NULL, NULL, NULL, NULL, '2025-05-06 09:20:31', '2025-05-06 09:20:31'),
-(6, 'Doctor 2', 'MBBS,SURGEN', '2025-05-06', NULL, NULL, NULL, NULL, '2025-05-06 09:30:09', '2025-05-06 09:30:09'),
-(7, 'DOCTOR 3', 'MBBS,ORTHOLOGY', '2025-05-06', NULL, NULL, NULL, NULL, '2025-05-06 09:31:31', '2025-05-06 09:31:31'),
-(8, 'DOCTOR 4', 'MBBS ,SKIN', '2025-05-07', NULL, NULL, NULL, NULL, '2025-05-06 10:20:16', '2025-05-06 10:20:16'),
-(9, 'DOCTOR 5', 'MBBS,UROLOGY', '2025-05-23', NULL, NULL, NULL, NULL, '2025-05-06 10:23:24', '2025-05-06 10:23:24');
+(1, 'Midhun Chacko', NULL, NULL, 'midhun@gmail.com', NULL, '$2y$10$8X0jPKHKI.tXDn2foORjnOO5WiX29MMU6uR5oA2d2E0q.SCXxA8DC', NULL, '2025-05-07 09:39:51', '2025-05-07 09:39:51'),
+(2, 'JOSEPH', 'MBBS', '2025-05-05', NULL, NULL, NULL, NULL, '2025-05-07 09:40:22', '2025-05-07 09:40:22'),
+(3, 'JOSEPH', 'MBBS', ' 2025-05-12', NULL, NULL, NULL, NULL, '2025-05-07 09:40:22', '2025-05-07 09:40:22'),
+(4, 'JOSEPH', 'MBBS', ' 2025-05-19', NULL, NULL, NULL, NULL, '2025-05-07 09:40:22', '2025-05-07 09:40:22'),
+(5, 'JOSEPH', 'MBBS', ' 2025-05-26', NULL, NULL, NULL, NULL, '2025-05-07 09:40:22', '2025-05-07 09:40:22'),
+(6, 'NIMMY', 'MBBS,SKIN', '2025-05-07', NULL, NULL, NULL, NULL, '2025-05-07 09:42:36', '2025-05-07 09:42:36'),
+(7, 'NIMMY', 'MBBS,SKIN', ' 2025-05-14', NULL, NULL, NULL, NULL, '2025-05-07 09:42:36', '2025-05-07 09:42:36'),
+(8, 'NIMMY', 'MBBS,SKIN', ' 2025-05-21', NULL, NULL, NULL, NULL, '2025-05-07 09:42:36', '2025-05-07 09:42:36'),
+(9, 'NIMMY', 'MBBS,SKIN', ' 2025-05-28', NULL, NULL, NULL, NULL, '2025-05-07 09:42:36', '2025-05-07 09:42:36'),
+(10, 'ABHI MATHU', 'MBBS', '2025-05-09', NULL, NULL, NULL, NULL, '2025-05-07 09:59:33', '2025-05-07 09:59:33'),
+(11, 'ABHI MATHU', 'MBBS', ' 2025-05-16', NULL, NULL, NULL, NULL, '2025-05-07 09:59:33', '2025-05-07 09:59:33'),
+(12, 'ABHI MATHU', 'MBBS', ' 2025-05-23', NULL, NULL, NULL, NULL, '2025-05-07 09:59:33', '2025-05-07 09:59:33'),
+(13, 'ABHI MATHU', 'MBBS', ' 2025-05-30', NULL, NULL, NULL, NULL, '2025-05-07 09:59:33', '2025-05-07 09:59:33');
 
 --
 -- Indexes for dumped tables
@@ -259,13 +274,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `consultations`
 --
 ALTER TABLE `consultations`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -277,7 +292,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -289,7 +304,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables

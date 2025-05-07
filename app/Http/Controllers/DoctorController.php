@@ -20,6 +20,7 @@ class DoctorController extends Controller
                        ->select('users.name as name','users.date as date','users.specialization as specialization','consultations.consult_days as consult_days','consultations.time_frame as time_frame')
                        ->get();
 
+        
         return view('home',compact('doctors'));
     }
 
@@ -27,23 +28,36 @@ class DoctorController extends Controller
     {
         $request->validate([
             'name'=>'required',
-            'date'=>'required',
+            'dates.*'=>'required',
             'specialization'=>'required',
             'conslt_days.*'=>'required',
-            'time_frame'=>'required'
+            'time_frame.*'=>'required'
         ]);
+              
+            $avlDays=explode(',',$request->dates);
+            $time=$request->time_frame;
+            $lastTime = end($time);
+            $avalDay=$request->conslt_days;
+            $lastDay = end($avalDay);
+            foreach($avlDays as $key=>$days)
+            {
+                $currentTime = isset($time[$key]) ? $time[$key] : $lastTime;
+                $currentDay = isset($avalDay[$key]) ? $avalDay[$key] : $lastDay; 
+                $doctor = User::Create([
+                    'name'=>$request->name,
+                    'date'=>$days,
+                    'specialization'=>$request->specialization,
+                    ]);
 
-            $doctor =User::Create([
-                'name'=>$request->name,
-                'date'=>$request->date,
-                'specialization'=>$request->specialization,
-                ]);
+                    Consultation::Create([
+                        'user_id'=>$doctor->id,
+                        'consult_days'=>$currentDay,
+                        'time_frame'=>$currentTime
+                     ]);
+            }
+            
 
-           Consultation::Create([
-                 'user_id'=>$doctor->id,
-                 'consult_days'=>json_encode($request->conslt_days),
-                 'time_frame'=>$request->time_frame
-                  ]);
+           
         return back();          
 
     }

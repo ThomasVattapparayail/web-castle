@@ -25,16 +25,35 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $date=$request->date;
+        $doctor=$request->doctor;
+        $doctorsAval = User::whereNotNull('specialization')->select('name')->distinct()->get();
         $minDate=Carbon::now()->format('Y-m-d');
         $maxDate=Carbon::now()->addDays(30)->format('Y-m-d');
-        if($date){
+        if($date  && $doctor){
             $doctors=User::leftJoin('consultations','consultations.user_id','=','users.id')
                        ->leftJoin('bookings','bookings.doc_id','=','users.id')
                        ->where('bookings.Booked_at','=',null)
                         ->where('specialization','!=',Null)
                         ->where('users.date','like','%'.$date.'%')
+                        ->where('users.name','like','%'.$doctor.'%')
                         ->select('users.id as id','users.name as name','users.date as date','users.specialization as specialization','consultations.consult_days as consult_days','consultations.time_frame as time_frame','consultations.id as conslt_id')
                         ->get();
+        }else if($date){
+            $doctors=User::leftJoin('consultations','consultations.user_id','=','users.id')
+                            ->leftJoin('bookings','bookings.doc_id','=','users.id')
+                            ->where('bookings.Booked_at','=',null)
+                            ->where('specialization','!=',Null)
+                            ->where('users.date','like','%'.$date.'%')
+                            ->select('users.id as id','users.name as name','users.date as date','users.specialization as specialization','consultations.consult_days as consult_days','consultations.time_frame as time_frame','consultations.id as conslt_id')
+                            ->get();
+        }else if($doctor){
+                                $doctors=User::leftJoin('consultations','consultations.user_id','=','users.id')
+                                                ->leftJoin('bookings','bookings.doc_id','=','users.id')
+                                                ->where('bookings.Booked_at','=',null)
+                                                ->where('specialization','!=',Null)
+                                                ->where('users.name','like','%'.$doctor.'%')
+                                                ->select('users.id as id','users.name as name','users.date as date','users.specialization as specialization','consultations.consult_days as consult_days','consultations.time_frame as time_frame','consultations.id as conslt_id')
+                                                ->get();
         }else{
             $doctors=User::leftJoin('consultations','consultations.user_id','=','users.id')
                        ->leftJoin('bookings','bookings.doc_id','=','users.id')
@@ -43,8 +62,9 @@ class HomeController extends Controller
                        ->select('users.id as id','users.name as name','users.date as date','users.specialization as specialization','consultations.consult_days as consult_days','consultations.time_frame as time_frame','consultations.id as conslt_id')
                        ->get();
         }
+        //dd($doctors);
         
-        return view('welcome',compact('doctors','minDate','maxDate'));
+        return view('welcome',compact('doctors','minDate','maxDate','doctorsAval'));
     }
 
     public function docBooking($id,$conslt_id,$date)
