@@ -22,6 +22,6 @@ Auth::routes();
 Route::middleware(['auth'])->Group(function(){
     Route::get('/home', [App\Http\Controllers\DoctorController::class, 'index'])->name('home');
     Route::post('/add_doctor', [App\Http\Controllers\DoctorController::class, 'addDoctors'])->name('add_doctor');
-    
+    //Route::get('/booking_token',[App\Http\Controllers\DoctorController::class, 'bookingsToken'])->name('tokens');
 });
 

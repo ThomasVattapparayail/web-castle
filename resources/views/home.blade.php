@@ -131,6 +131,30 @@
         @endforeach
     </table>
 
+
+
+    <h2>Patients Table</h2>
+
+    <table>
+        <tr>
+            <th>Doctor Name</th>
+            <th>TOKEN</th>
+            <th>DATE</th>
+            <th>TIME</th>
+        </tr>
+        @foreach($tokens as $doctor)
+        <?php
+        
+         
+         ?>
+        <tr>
+            <td>{{$doctor->doc_name}}</td>
+            <td>{{$doctor->token}}</td>
+            <td>{{$doctor->date}}</td>
+            <td>{{$doctor->time}}</td>
+        </tr>
+        @endforeach
+    </table>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>

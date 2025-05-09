@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
 use App\Models\Consultation;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -20,8 +21,12 @@ class DoctorController extends Controller
                        ->select('users.name as name','users.date as date','users.specialization as specialization','consultations.consult_days as consult_days','consultations.time_frame as time_frame')
                        ->get();
 
+        $tokens= Booking::leftJoin('users','users.id',"=",'bookings.doc_id')
+                        ->leftJoin('consultations','consultations.id','=','bookings.conslt_id')
+                       ->select('users.name as doc_name','bookings.token as token','bookings.Booked_at as date','consultations.time_frame as time')
+                       ->get();
         
-        return view('home',compact('doctors'));
+        return view('home',compact('doctors','tokens'));
     }
 
     public function addDoctors(Request $request)
@@ -61,6 +66,15 @@ class DoctorController extends Controller
         return back();          
 
     }
+
+    // public function bookingsToken()
+    // {
+    //     $tokens= Booking::leftJoin('users','users.id',"=",'bookings.doc_id')
+    //                       ->select('users.name as doc_name','bookings.token as token')
+    //                       ->get();
+         
+    //  return view('home',compact('doctors'));                
+   // }
 
    
 }
